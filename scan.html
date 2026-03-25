@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Q-CARE — Scan QR Pasien</title>
+  <meta name="description" content="Q-CARE Scan QR — Simulasi pemindaian QR Code untuk mengakses data pasien." />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="scan">
+
+  <!-- Navbar -->
+  <nav class="qcare-navbar navbar navbar-expand-md">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html" id="nav-brand-scan">
+        <div class="brand-icon">🏥</div>
+        <div class="brand-text">
+          Q-CARE
+          <span>Quick Care Access & Record</span>
+        </div>
+      </a>
+
+      <button class="navbar-toggler bg-transparent border-0" type="button"
+        data-bs-toggle="collapse" data-bs-target="#navMenu"
+        aria-label="Toggle navigation">
+        <span style="color:var(--text-light);font-size:1.4rem;">☰</span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-md-center gap-1">
+          <li class="nav-item">
+            <a class="nav-link-btn" href="index.html" id="nav-dashboard-link">🏠 Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link-btn active" href="scan.html" id="nav-scan-link">📷 Scan QR</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Scan Hero -->
+  <div class="scan-hero">
+    <div class="scan-container">
+
+      <!-- QR Animation Box -->
+      <div class="qr-animation-box" aria-hidden="true">
+        <div class="qr-corner tl"></div>
+        <div class="qr-corner tr"></div>
+        <div class="qr-corner bl"></div>
+        <div class="qr-corner br"></div>
+        <span class="qr-icon-inner">⬛</span>
+      </div>
+
+      <!-- Card -->
+      <div class="glass-card" style="padding:2rem;">
+        <div style="text-align:center;margin-bottom:1.75rem;">
+          <h1 style="font-size:1.35rem;font-weight:700;color:#fff;margin-bottom:0.4rem;">
+            Scan QR Pasien
+          </h1>
+          <p style="font-size:0.85rem;color:var(--text-light);">
+            Masukkan ID Pasien untuk mengakses rekam medis
+          </p>
+        </div>
+
+        <form id="scan-form" novalidate>
+          <div class="qcare-input-group">
+            <label for="patient-id-input">ID Pasien</label>
+            <div class="input-with-icon">
+              <span class="icon">🪪</span>
+              <input
+                type="text"
+                class="qcare-input"
+                id="patient-id-input"
+                placeholder="Contoh: P001"
+                autocomplete="off"
+                autocapitalize="characters"
+                spellcheck="false"
+                aria-label="Masukkan ID Pasien"
+                maxlength="10"
+              />
+            </div>
+          </div>
+
+          <!-- Quick ID chips -->
+          <div class="quick-ids" role="group" aria-label="Pilih ID cepat">
+            <p>ID tersedia:</p>
+            <button type="button" class="qid-chip" data-id="P001" id="chip-p001">P001</button>
+            <button type="button" class="qid-chip" data-id="P002" id="chip-p002">P002</button>
+            <button type="button" class="qid-chip" data-id="P003" id="chip-p003">P003</button>
+            <button type="button" class="qid-chip" data-id="P004" id="chip-p004">P004</button>
+            <button type="button" class="qid-chip" data-id="P005" id="chip-p005">P005</button>
+          </div>
+
+          <!-- Error Alert -->
+          <div class="alert-custom error hidden" id="scan-error" role="alert"></div>
+
+          <!-- Submit -->
+          <button type="submit" class="btn-scan-action mt-4" id="btn-scan" aria-label="Scan pasien">
+            📷 &nbsp; Scan &amp; Buka Data Pasien
+          </button>
+        </form>
+
+        <div style="margin-top:1.5rem;border-top:1px solid var(--border);padding-top:1.25rem;text-align:center;">
+          <a href="index.html" class="btn-secondary-custom" id="back-to-dashboard" style="justify-content:center;width:100%;">
+            ← Kembali ke Dashboard
+          </a>
+        </div>
+      </div>
+
+      <p style="text-align:center;color:var(--text-muted);font-size:0.72rem;margin-top:1.5rem;">
+        Simulasi QR Scanner &bull; Q-CARE Prototype v1.2
+      </p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

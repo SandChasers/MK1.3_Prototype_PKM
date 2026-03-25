@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Q-CARE — Detail Pasien</title>
+  <meta name="description" content="Q-CARE — Tampilkan data identitas dan riwayat medis pasien." />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body data-page="patient">
+
+  <!-- Navbar -->
+  <nav class="qcare-navbar navbar navbar-expand-md">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="index.html" id="nav-brand-patient">
+        <div class="brand-icon">🏥</div>
+        <div class="brand-text">
+          Q-CARE
+          <span>Quick Care Access & Record</span>
+        </div>
+      </a>
+
+      <button class="navbar-toggler bg-transparent border-0" type="button"
+        data-bs-toggle="collapse" data-bs-target="#navMenu"
+        aria-label="Toggle navigation">
+        <span style="color:var(--text-light);font-size:1.4rem;">☰</span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-md-center gap-1">
+          <li class="nav-item">
+            <a class="nav-link-btn" href="index.html" id="nav-dashboard-p">🏠 Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link-btn" href="scan.html" id="nav-scan-p">📷 Scan QR</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="main-content">
+    <div class="container-xxl">
+
+      <!-- Breadcrumb -->
+      <nav aria-label="breadcrumb" style="margin-bottom:1.5rem;">
+        <ol class="breadcrumb" style="background:none;padding:0;margin:0;font-size:0.78rem;">
+          <li class="breadcrumb-item"><a href="index.html" style="color:var(--text-muted);text-decoration:none;">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="scan.html" style="color:var(--text-muted);text-decoration:none;">Scan QR</a></li>
+          <li class="breadcrumb-item active" style="color:var(--text-light);">Detail Pasien</li>
+        </ol>
+      </nav>
+
+      <!-- Loading Skeleton -->
+      <div id="patient-loading">
+        <div class="glass-card" style="padding:2rem;margin-bottom:1.5rem;">
+          <div class="loading-skeleton" style="height:24px;width:40%;margin-bottom:1rem;"></div>
+          <div class="loading-skeleton" style="height:16px;width:60%;margin-bottom:0.75rem;"></div>
+          <div class="loading-skeleton" style="height:16px;width:50%;"></div>
+        </div>
+        <div class="glass-card" style="padding:2rem;">
+          <div class="loading-skeleton" style="height:200px;width:100%;"></div>
+        </div>
+      </div>
+
+      <!-- Not Found -->
+      <div id="patient-not-found" class="glass-card hidden">
+        <div class="not-found-box">
+          <div class="icon">🔎</div>
+          <h4>Pasien Tidak Ditemukan</h4>
+          <p id="not-found-msg">ID pasien tidak terdaftar dalam sistem.</p>
+          <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="scan.html" class="btn-primary-custom" id="btn-try-again">📷 Coba Scan Ulang</a>
+            <a href="index.html" class="btn-secondary-custom" id="btn-back-home">🏠 Dashboard</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Patient Detail -->
+      <div id="patient-detail" class="hidden fade-in">
+
+        <!-- Header Section -->
+        <div class="glass-card mb-4">
+          <div class="card-body-custom">
+            <div class="d-flex align-items-start gap-3 flex-wrap">
+              <div id="detail-avatar" class="patient-avatar male"
+                style="width:56px;height:56px;font-size:1.3rem;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:700;">
+                ?
+              </div>
+              <div style="flex:1;">
+                <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:0.25rem;">
+                  <h1 style="font-size:1.4rem;font-weight:700;color:#fff;margin:0;" id="detail-nama">—</h1>
+                  <span class="patient-id-badge" id="detail-id">—</span>
+                </div>
+                <div style="color:var(--text-light);font-size:0.85rem;">
+                  NIK: <span id="detail-nik" style="font-family:'Courier New',monospace;color:#E2EBF8;">—</span>
+                </div>
+              </div>
+              <div class="d-flex gap-2 flex-wrap">
+                <a href="scan.html" class="btn-secondary-custom" id="btn-scan-again" style="font-size:0.8rem;padding:0.5rem 1rem;">
+                  📷 Scan Lain
+                </a>
+                <button class="btn-success-custom" id="btn-kirim-dokter"
+                  data-bs-toggle="modal" data-bs-target="#sendModal"
+                  aria-label="Kirim data ke dokter">
+                  📨 Kirim ke Dokter
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Grid -->
+        <div class="row g-4 mb-4">
+          <div class="col-12 col-lg-5">
+            <div class="glass-card h-100">
+              <div class="card-header-custom">
+                <h5>🪪 Data Identitas</h5>
+              </div>
+              <div class="card-body-custom">
+                <div class="detail-info-grid">
+                  <div class="info-item">
+                    <span class="info-label">Tanggal Lahir</span>
+                    <span class="info-value" id="detail-tgl-lahir">—</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Usia</span>
+                    <span class="info-value" id="detail-usia">—</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Jenis Kelamin</span>
+                    <span class="info-value" id="detail-jk">—</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">Gol. Darah</span>
+                    <span class="info-value" id="detail-gol-darah">—</span>
+                  </div>
+                  <div class="info-item" style="grid-column: 1/-1;">
+                    <span class="info-label">Alamat</span>
+                    <span class="info-value" id="detail-alamat">—</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">No. Telepon</span>
+                    <span class="info-value" id="detail-telp">—</span>
+                  </div>
+                  <div class="info-item">
+                    <span class="info-label">No. BPJS</span>
+                    <span class="info-value" id="detail-bpjs" style="font-family:'Courier New',monospace;font-size:0.82rem;">—</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Riwayat Medis -->
+          <div class="col-12 col-lg-7">
+            <div class="glass-card h-100">
+              <div class="card-header-custom">
+                <h5>📋 Riwayat Medis</h5>
+                <span class="history-count" id="history-count">0 kunjungan</span>
+              </div>
+              <div style="overflow-x:auto;">
+                <table class="history-table" role="table" aria-label="Riwayat medis pasien">
+                  <thead>
+                    <tr>
+                      <th>Tanggal</th>
+                      <th>Diagnosa</th>
+                      <th>Tindakan</th>
+                      <th>Dokter</th>
+                    </tr>
+                  </thead>
+                  <tbody id="history-tbody">
+                    <!-- Rendered by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="index.html" class="btn-secondary-custom" id="btn-back-dashboard">
+            ← Dashboard
+          </a>
+          <a href="scan.html" class="btn-secondary-custom" id="btn-back-scan">
+            📷 Scan Lagi
+          </a>
+        </div>
+
+      </div><!-- /patient-detail -->
+
+    </div>
+  </main>
+
+  <footer class="qcare-footer">
+    Q-CARE Prototype &mdash; Rekam Medis Pasien &bull; Data bersifat simulasi
+  </footer>
+
+  <!-- ======================= -->
+  <!-- Send to Doctor Modal    -->
+  <!-- ======================= -->
+  <div class="modal fade" id="sendModal" tabindex="-1" aria-labelledby="sendModalLabel" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="sendModalLabel">📨 Konfirmasi Pengiriman Data</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+        </div>
+        <div class="modal-body">
+          <div class="confirm-icon">📤</div>
+          <p style="text-align:center;color:var(--text-light);font-size:0.875rem;margin-bottom:1.25rem;">
+            Data rekam medis pasien akan dikirimkan ke dokter yang bertugas.
+          </p>
+          <div class="confirm-info-box">
+            <div class="confirm-info-row">
+              <span class="ci-label">Nama Pasien</span>
+              <span class="ci-value" id="modal-nama">—</span>
+            </div>
+            <div class="confirm-info-row">
+              <span class="ci-label">ID Pasien</span>
+              <span class="ci-value" id="modal-id">—</span>
+            </div>
+            <div class="confirm-info-row">
+              <span class="ci-label">NIK</span>
+              <span class="ci-value" id="modal-nik" style="font-family:'Courier New',monospace;font-size:0.8rem;">—</span>
+            </div>
+            <div class="confirm-info-row">
+              <span class="ci-label">Jumlah Riwayat</span>
+              <span class="ci-value" id="modal-riwayat-count">—</span>
+            </div>
+            <div class="confirm-info-row">
+              <span class="ci-label">Waktu Pengiriman</span>
+              <span class="ci-value" id="modal-timestamp" style="font-size:0.8rem;">—</span>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary-custom" data-bs-dismiss="modal" id="btn-cancel-send">
+            Batal
+          </button>
+          <button type="button" class="btn-success-custom" id="btn-confirm-send">
+            ✅ Ya, Kirim Sekarang
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================= -->
+  <!-- Success Overlay           -->
+  <!-- ========================= -->
+  <div class="success-overlay" id="success-overlay" role="status" aria-live="polite">
+    <div class="success-popup">
+      <div class="success-check">✅</div>
+      <h5>Data Berhasil Dikirim!</h5>
+      <p>
+        Rekam medis <strong id="success-nama">pasien</strong> telah berhasil
+        dikirimkan ke dokter yang bertugas.
+      </p>
+      <div style="background:rgba(6,214,160,0.08);border:1px solid rgba(6,214,160,0.15);border-radius:10px;padding:0.75rem 1rem;font-size:0.8rem;color:var(--text-light);">
+        📧 Notifikasi simulasi — tidak ada email asli yang terkirim
+      </div>
+      <button class="btn-primary-custom mt-3" style="width:100%;justify-content:center;"
+        onclick="document.getElementById('success-overlay').classList.remove('show')"
+        id="btn-dismiss-success">
+        OK, Tutup
+      </button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
